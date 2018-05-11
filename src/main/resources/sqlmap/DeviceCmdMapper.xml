@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liser.socket.dao.DeviceCmdMapper">
+  <resultMap id="BaseResultMap" type="com.liser.socket.bean.DeviceCmd">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="device_number" jdbcType="VARCHAR" property="deviceNumber" />
+    <result column="fun_id" jdbcType="VARCHAR" property="funId" />
+    <result column="cmd_id" jdbcType="VARCHAR" property="cmdId" />
+    <result column="cmd_status" jdbcType="VARCHAR" property="cmdStatus" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, device_number, fun_id, cmd_id, cmd_status, time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ycdl_car_common_device_cmd
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ycdl_car_common_device_cmd
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.liser.socket.bean.DeviceCmd">
+    insert into ycdl_car_common_device_cmd (id, device_number, fun_id, 
+      cmd_id, cmd_status, time
+      )
+    values (#{id,jdbcType=INTEGER}, #{deviceNumber,jdbcType=VARCHAR}, #{funId,jdbcType=VARCHAR}, 
+      #{cmdId,jdbcType=VARCHAR}, #{cmdStatus,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.liser.socket.bean.DeviceCmd">
+    insert into ycdl_car_common_device_cmd
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="deviceNumber != null">
+        device_number,
+      </if>
+      <if test="funId != null">
+        fun_id,
+      </if>
+      <if test="cmdId != null">
+        cmd_id,
+      </if>
+      <if test="cmdStatus != null">
+        cmd_status,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="deviceNumber != null">
+        #{deviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="funId != null">
+        #{funId,jdbcType=VARCHAR},
+      </if>
+      <if test="cmdId != null">
+        #{cmdId,jdbcType=VARCHAR},
+      </if>
+      <if test="cmdStatus != null">
+        #{cmdStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.liser.socket.bean.DeviceCmd">
+    update ycdl_car_common_device_cmd
+    <set>
+      <if test="deviceNumber != null">
+        device_number = #{deviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="funId != null">
+        fun_id = #{funId,jdbcType=VARCHAR},
+      </if>
+      <if test="cmdId != null">
+        cmd_id = #{cmdId,jdbcType=VARCHAR},
+      </if>
+      <if test="cmdStatus != null">
+        cmd_status = #{cmdStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.liser.socket.bean.DeviceCmd">
+    update ycdl_car_common_device_cmd
+    set device_number = #{deviceNumber,jdbcType=VARCHAR},
+      fun_id = #{funId,jdbcType=VARCHAR},
+      cmd_id = #{cmdId,jdbcType=VARCHAR},
+      cmd_status = #{cmdStatus,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!-- 查询是否设备应答类型已经存在 -->
+  <select id="selectCmdExist" parameterType="com.liser.socket.bean.DeviceCmd" resultMap="BaseResultMap">
+    select id
+    from ycdl_car_common_device_cmd
+    where device_number = #{deviceNumber,jdbcType=VARCHAR}
+      and fun_id = #{funId,jdbcType=VARCHAR}
+      <if test="cmdId != null">
+        AND cmd_id like #{cmdId,jdbcType=VARCHAR}
+      </if>
+  </select>
+
+</mapper>

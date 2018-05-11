@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket客户端</title>
+</head>
+<body>
+<script type="text/javascript">
+    var socket;
+
+    //如果浏览器支持WebSocket
+    if(window.WebSocket){
+        //参数就是与服务器连接的地址
+        socket = new WebSocket("ws://127.0.0.1:8090/ycdl/websocket");
+
+        //客户端收到服务器消息的时候就会执行这个回调方法
+        socket.onmessage = function (event) {
+            var ta = document.getElementById("responseText");
+            ta.value = ta.value + "\n"+event.data;
+        }
+
+        //连接建立的回调函数
+        socket.onopen = function(event){
+            var ta = document.getElementById("responseText");
+            ta.value = "连接开启";
+        }
+
+        //连接断掉的回调函数
+        socket.onclose = function (event) {
+            var ta = document.getElementById("responseText");
+            ta.value = ta.value +"\n"+"连接关闭";
+        }
+    }else{
+        alert("浏览器不支持WebSocket！");
+    }
+
+    // 远程点名
+    function send4(message){
+        if(!window.WebSocket){
+            return;
+        }
+        var data = {"functional_ID":"8255", "message_body_length":0, "device_ID":message,"message_number":"0001","data_page_hex":null};
+        data = JSON.stringify(data);
+        //当websocket状态打开""
+        if(socket.readyState == WebSocket.OPEN){
+            socket.send(data);
+        }else{
+            alert("连接没有开启");
+        }
+    }
+
+    // 远程查询
+    function send5(message){
+        if(!window.WebSocket){
+            return;
+        }
+        var data = {"functional_ID":"8300", "message_body_length":2, "device_ID":message,"message_number":"0001","data_page_hex":"A341"};
+        data = JSON.stringify(data);
+        //当websocket状态打开
+        if(socket.readyState == WebSocket.OPEN){
+            socket.send(data);
+        }else{
+            alert("连接没有开启");
+        }
+    }
+
+    // 远程设置
+    function send6(message){
+        if(!window.WebSocket){
+            return;
+        }
+        var data = {"functional_ID":"8400", "message_body_length":8, "device_ID":message,"message_number":"0001","data_page_hex":"010000A341000101"};
+        data = JSON.stringify(data);
+        //当websocket状态打开
+        if(socket.readyState == WebSocket.OPEN){
+            socket.send(data);
+        }else{
+            alert("连接没有开启");
+        }
+    }
+
+    // 下单or还车
+    function send1(message,content){
+        if(!window.WebSocket){
+            return;
+        }
+        var data = {"functionID":"8600", "messageBodyLength":6, "deviceID":message,"command":"A001000100","content":content};
+        data = JSON.stringify(data);
+        //当websocket状态打开
+        if(socket.readyState == WebSocket.OPEN){
+            socket.send(data);
+        }else{
+            alert("连接没有开启");
+        }
+    }
+
+    // 门控制（全关or全开）
+    function send2(message,content){
+        if(!window.WebSocket){
+            return;
+        }
+        var data = {"functionID":"8600", "messageBodyLength":6, "deviceID":message,"command":"A20F000100","content":content};
+        data = JSON.stringify(data);
+        //当websocket状态打开
+        if(socket.readyState == WebSocket.OPEN){
+            socket.send(data);
+        }else{
+            alert("连接没有开启");
+        }
+    }
+
+    // 窗控制（全关or全开）
+    function send3(message,content){
+        if(!window.WebSocket){
+            return;
+        }
+        var data = {"functionID":"8600", "messageBodyLength":6, "deviceID":message,"command":"A30F000100","content":content};
+        data = JSON.stringify(data);
+        //当websocket状态打开
+        if(socket.readyState == WebSocket.OPEN){
+            socket.send(data);
+        }else{
+            alert("连接没有开启");
+        }
+    }
+
+
+
+
+</script>
+<form onsubmit="return false">
+    <textarea name = "message" style="width: 400px;height: 200px"></textarea>
+    <input type ="button" value="远程点名" onclick="send4(this.form.message.value,'01');">
+    <input type ="button" value="远程查询" onclick="send5(this.form.message.value,'01');">
+    <input type ="button" value="远程设置" onclick="send6(this.form.message.value,'01');">
+
+    <input type ="button" value="下单" onclick="send1(this.form.message.value,'01');">
+    <input type ="button" value="还车" onclick="send1(this.form.message.value,'00');">
+    <!--<input type ="button" value="远程寻车" onclick="send(this.form.message.value);">-->
+    <input type ="button" value="门全开" onclick="send2(this.form.message.value,'0F');">
+    <input type ="button" value="门全关" onclick="send2(this.form.message.value,'00');">
+    <input type ="button" value="窗全开" onclick="send3(this.form.message.value,'0F');">
+    <input type ="button" value="窗全关" onclick="send3(this.form.message.value,'00');">
+
+
+    <h3>服务器输出：</h3>
+
+    <textarea id ="responseText" style="width: 400px;height: 300px;"></textarea>
+
+    <input type="button" onclick="javascript:document.getElementById('responseText').value=''" value="清空数据">
+
+    <br>
+
+    <form action="http://127.0.0.1:8090/ycdl/testjson" method="post">
+        First name: <input type="text" name="fname" /><br />
+        Last name: <input type="text" name="lname" /><br />
+        功能ID:<input type="text" name="functional_ID"/><br>
+        消息体长度:<input type="text" name="message_body_length"/><br>
+        设备ID:<input type="text" name="device_ID"/><br>
+        消息流水号:<input type="text" name="message_number"/><br>
+        消息体16进制字符串:<input type="text" name="data_page_hex"/><br>
+        <input type="submit" value="提交" />
+    </form>
+
+</form>
+</body>
+</html>

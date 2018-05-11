@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liser.socket.dao.DeviceLogMapper">
+  <resultMap id="BaseResultMap" type="com.liser.socket.bean.DeviceLog">
+    <result column="device_number" jdbcType="VARCHAR" property="deviceNumber" />
+    <result column="fun_id" jdbcType="VARCHAR" property="funId" />
+    <result column="message_id" jdbcType="VARCHAR" property="messageId" />
+    <result column="warning_id" jdbcType="VARCHAR" property="warningId" />
+    <result column="has_gps" jdbcType="BIT" property="hasGps" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="longitude_ew" jdbcType="BIT" property="longitudeEw" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="latitude_ns" jdbcType="BIT" property="latitudeNs" />
+    <result column="speed" jdbcType="REAL" property="speed" />
+    <result column="direction" jdbcType="REAL" property="direction" />
+    <result column="gather_time" jdbcType="TIMESTAMP" property="gatherTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.liser.socket.bean.DeviceLogWithBLOBs">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="original" jdbcType="LONGVARCHAR" property="original" />
+  </resultMap>
+  <sql id="Blob_Column_List">
+    content, original
+  </sql>
+  <insert id="insert" parameterType="com.liser.socket.bean.DeviceLogWithBLOBs">
+    insert into ycdl_car_common_device_log (device_number, fun_id, message_id, 
+      warning_id, has_gps, longitude, 
+      longitude_ew, latitude, latitude_ns, 
+      speed, direction, gather_time, 
+      create_time, content, original
+      )
+    values (#{deviceNumber,jdbcType=VARCHAR}, #{funId,jdbcType=VARCHAR}, #{messageId,jdbcType=VARCHAR}, 
+      #{warningId,jdbcType=VARCHAR}, #{hasGps,jdbcType=BIT}, #{longitude,jdbcType=VARCHAR}, 
+      #{longitudeEw,jdbcType=BIT}, #{latitude,jdbcType=VARCHAR}, #{latitudeNs,jdbcType=BIT}, 
+      #{speed,jdbcType=REAL}, #{direction,jdbcType=REAL}, #{gatherTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}, #{original,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.liser.socket.bean.DeviceLogWithBLOBs">
+    insert into ycdl_car_common_device_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="deviceNumber != null">
+        device_number,
+      </if>
+      <if test="funId != null">
+        fun_id,
+      </if>
+      <if test="messageId != null">
+        message_id,
+      </if>
+      <if test="warningId != null">
+        warning_id,
+      </if>
+      <if test="hasGps != null">
+        has_gps,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="longitudeEw != null">
+        longitude_ew,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="latitudeNs != null">
+        latitude_ns,
+      </if>
+      <if test="speed != null">
+        speed,
+      </if>
+      <if test="direction != null">
+        direction,
+      </if>
+      <if test="gatherTime != null">
+        gather_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="original != null">
+        original,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="deviceNumber != null">
+        #{deviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="funId != null">
+        #{funId,jdbcType=VARCHAR},
+      </if>
+      <if test="messageId != null">
+        #{messageId,jdbcType=VARCHAR},
+      </if>
+      <if test="warningId != null">
+        #{warningId,jdbcType=VARCHAR},
+      </if>
+      <if test="hasGps != null">
+        #{hasGps,jdbcType=BIT},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="longitudeEw != null">
+        #{longitudeEw,jdbcType=BIT},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitudeNs != null">
+        #{latitudeNs,jdbcType=BIT},
+      </if>
+      <if test="speed != null">
+        #{speed,jdbcType=REAL},
+      </if>
+      <if test="direction != null">
+        #{direction,jdbcType=REAL},
+      </if>
+      <if test="gatherTime != null">
+        #{gatherTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="original != null">
+        #{original,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

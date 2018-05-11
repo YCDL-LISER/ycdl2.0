@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liser.socket.dao.DeviceMapper">
+  <resultMap id="BaseResultMap" type="com.liser.socket.bean.Device">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="device_number" jdbcType="VARCHAR" property="deviceNumber" />
+    <result column="device_type" jdbcType="TINYINT" property="deviceType" />
+    <result column="device_status" jdbcType="TINYINT" property="deviceStatus" />
+    <result column="device_online" jdbcType="TINYINT" property="deviceOnline" />
+    <result column="cpu_id" jdbcType="VARCHAR" property="cpuId" />
+    <result column="gsm_type" jdbcType="VARCHAR" property="gsmType" />
+    <result column="gsm_imei" jdbcType="VARCHAR" property="gsmImei" />
+    <result column="sim_imsi" jdbcType="VARCHAR" property="simImsi" />
+    <result column="sim_iccid" jdbcType="VARCHAR" property="simIccid" />
+    <result column="obd_versions" jdbcType="VARCHAR" property="obdVersions" />
+    <result column="obd_versions_time" jdbcType="TIMESTAMP" property="obdVersionsTime" />
+    <result column="car_type" jdbcType="VARCHAR" property="carType" />
+    <result column="car_status_code" jdbcType="VARCHAR" property="carStatusCode" />
+    <result column="driving_mileage" jdbcType="REAL" property="drivingMileage" />
+    <result column="energy" jdbcType="TINYINT" property="energy" />
+    <result column="vin" jdbcType="VARCHAR" property="vin" />
+    <result column="odometer" jdbcType="VARCHAR" property="odometer" />
+    <result column="oil" jdbcType="VARCHAR" property="oil" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="store_key_id" jdbcType="INTEGER" property="storeKeyId" />
+    <result column="store_key_name" jdbcType="VARCHAR" property="storeKeyName" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.liser.socket.bean.DeviceWithBLOBs">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="original" jdbcType="LONGVARCHAR" property="original" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, goods_id, device_number, device_type, device_status, device_online, cpu_id, 
+    gsm_type, gsm_imei, sim_imsi, sim_iccid, obd_versions, obd_versions_time, car_type, 
+    car_status_code, driving_mileage, energy, vin, odometer, oil, create_time, update_time, 
+    store_key_id, store_key_name
+  </sql>
+  <sql id="Blob_Column_List">
+    content, original
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ycdl_car_common_device
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ycdl_car_common_device
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.liser.socket.bean.DeviceWithBLOBs">
+    insert into ycdl_car_common_device (id, name, goods_id, 
+      device_number, device_type, device_status, 
+      device_online, cpu_id, gsm_type, 
+      gsm_imei, sim_imsi, sim_iccid, 
+      obd_versions, obd_versions_time, car_type, 
+      car_status_code, driving_mileage, energy, 
+      vin, odometer, oil, 
+      create_time, update_time, store_key_id, 
+      store_key_name, content, original
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{goodsId,jdbcType=INTEGER}, 
+      #{deviceNumber,jdbcType=VARCHAR}, #{deviceType,jdbcType=TINYINT}, #{deviceStatus,jdbcType=TINYINT}, 
+      #{deviceOnline,jdbcType=TINYINT}, #{cpuId,jdbcType=VARCHAR}, #{gsmType,jdbcType=VARCHAR}, 
+      #{gsmImei,jdbcType=VARCHAR}, #{simImsi,jdbcType=VARCHAR}, #{simIccid,jdbcType=VARCHAR}, 
+      #{obdVersions,jdbcType=VARCHAR}, #{obdVersionsTime,jdbcType=TIMESTAMP}, #{carType,jdbcType=VARCHAR}, 
+      #{carStatusCode,jdbcType=VARCHAR}, #{drivingMileage,jdbcType=REAL}, #{energy,jdbcType=TINYINT}, 
+      #{vin,jdbcType=VARCHAR}, #{odometer,jdbcType=VARCHAR}, #{oil,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{storeKeyId,jdbcType=INTEGER}, 
+      #{storeKeyName,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{original,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.liser.socket.bean.DeviceWithBLOBs">
+    insert into ycdl_car_common_device
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="deviceNumber != null">
+        device_number,
+      </if>
+      <if test="deviceType != null">
+        device_type,
+      </if>
+      <if test="deviceStatus != null">
+        device_status,
+      </if>
+      <if test="deviceOnline != null">
+        device_online,
+      </if>
+      <if test="cpuId != null">
+        cpu_id,
+      </if>
+      <if test="gsmType != null">
+        gsm_type,
+      </if>
+      <if test="gsmImei != null">
+        gsm_imei,
+      </if>
+      <if test="simImsi != null">
+        sim_imsi,
+      </if>
+      <if test="simIccid != null">
+        sim_iccid,
+      </if>
+      <if test="obdVersions != null">
+        obd_versions,
+      </if>
+      <if test="obdVersionsTime != null">
+        obd_versions_time,
+      </if>
+      <if test="carType != null">
+        car_type,
+      </if>
+      <if test="carStatusCode != null">
+        car_status_code,
+      </if>
+      <if test="drivingMileage != null">
+        driving_mileage,
+      </if>
+      <if test="energy != null">
+        energy,
+      </if>
+      <if test="vin != null">
+        vin,
+      </if>
+      <if test="odometer != null">
+        odometer,
+      </if>
+      <if test="oil != null">
+        oil,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="storeKeyId != null">
+        store_key_id,
+      </if>
+      <if test="storeKeyName != null">
+        store_key_name,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="original != null">
+        original,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="deviceNumber != null">
+        #{deviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null">
+        #{deviceType,jdbcType=TINYINT},
+      </if>
+      <if test="deviceStatus != null">
+        #{deviceStatus,jdbcType=TINYINT},
+      </if>
+      <if test="deviceOnline != null">
+        #{deviceOnline,jdbcType=TINYINT},
+      </if>
+      <if test="cpuId != null">
+        #{cpuId,jdbcType=VARCHAR},
+      </if>
+      <if test="gsmType != null">
+        #{gsmType,jdbcType=VARCHAR},
+      </if>
+      <if test="gsmImei != null">
+        #{gsmImei,jdbcType=VARCHAR},
+      </if>
+      <if test="simImsi != null">
+        #{simImsi,jdbcType=VARCHAR},
+      </if>
+      <if test="simIccid != null">
+        #{simIccid,jdbcType=VARCHAR},
+      </if>
+      <if test="obdVersions != null">
+        #{obdVersions,jdbcType=VARCHAR},
+      </if>
+      <if test="obdVersionsTime != null">
+        #{obdVersionsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carType != null">
+        #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="carStatusCode != null">
+        #{carStatusCode,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingMileage != null">
+        #{drivingMileage,jdbcType=REAL},
+      </if>
+      <if test="energy != null">
+        #{energy,jdbcType=TINYINT},
+      </if>
+      <if test="vin != null">
+        #{vin,jdbcType=VARCHAR},
+      </if>
+      <if test="odometer != null">
+        #{odometer,jdbcType=VARCHAR},
+      </if>
+      <if test="oil != null">
+        #{oil,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeKeyId != null">
+        #{storeKeyId,jdbcType=INTEGER},
+      </if>
+      <if test="storeKeyName != null">
+        #{storeKeyName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="original != null">
+        #{original,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.liser.socket.bean.DeviceWithBLOBs">
+    update ycdl_car_common_device
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="deviceNumber != null">
+        device_number = #{deviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null">
+        device_type = #{deviceType,jdbcType=TINYINT},
+      </if>
+      <if test="deviceStatus != null">
+        device_status = #{deviceStatus,jdbcType=TINYINT},
+      </if>
+      <if test="deviceOnline != null">
+        device_online = #{deviceOnline,jdbcType=TINYINT},
+      </if>
+      <if test="cpuId != null">
+        cpu_id = #{cpuId,jdbcType=VARCHAR},
+      </if>
+      <if test="gsmType != null">
+        gsm_type = #{gsmType,jdbcType=VARCHAR},
+      </if>
+      <if test="gsmImei != null">
+        gsm_imei = #{gsmImei,jdbcType=VARCHAR},
+      </if>
+      <if test="simImsi != null">
+        sim_imsi = #{simImsi,jdbcType=VARCHAR},
+      </if>
+      <if test="simIccid != null">
+        sim_iccid = #{simIccid,jdbcType=VARCHAR},
+      </if>
+      <if test="obdVersions != null">
+        obd_versions = #{obdVersions,jdbcType=VARCHAR},
+      </if>
+      <if test="obdVersionsTime != null">
+        obd_versions_time = #{obdVersionsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carType != null">
+        car_type = #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="carStatusCode != null">
+        car_status_code = #{carStatusCode,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingMileage != null">
+        driving_mileage = #{drivingMileage,jdbcType=REAL},
+      </if>
+      <if test="energy != null">
+        energy = #{energy,jdbcType=TINYINT},
+      </if>
+      <if test="vin != null">
+        vin = #{vin,jdbcType=VARCHAR},
+      </if>
+      <if test="odometer != null">
+        odometer = #{odometer,jdbcType=VARCHAR},
+      </if>
+      <if test="oil != null">
+        oil = #{oil,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeKeyId != null">
+        store_key_id = #{storeKeyId,jdbcType=INTEGER},
+      </if>
+      <if test="storeKeyName != null">
+        store_key_name = #{storeKeyName,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="original != null">
+        original = #{original,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.liser.socket.bean.DeviceWithBLOBs">
+    update ycdl_car_common_device
+    set name = #{name,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      device_number = #{deviceNumber,jdbcType=VARCHAR},
+      device_type = #{deviceType,jdbcType=TINYINT},
+      device_status = #{deviceStatus,jdbcType=TINYINT},
+      device_online = #{deviceOnline,jdbcType=TINYINT},
+      cpu_id = #{cpuId,jdbcType=VARCHAR},
+      gsm_type = #{gsmType,jdbcType=VARCHAR},
+      gsm_imei = #{gsmImei,jdbcType=VARCHAR},
+      sim_imsi = #{simImsi,jdbcType=VARCHAR},
+      sim_iccid = #{simIccid,jdbcType=VARCHAR},
+      obd_versions = #{obdVersions,jdbcType=VARCHAR},
+      obd_versions_time = #{obdVersionsTime,jdbcType=TIMESTAMP},
+      car_type = #{carType,jdbcType=VARCHAR},
+      car_status_code = #{carStatusCode,jdbcType=VARCHAR},
+      driving_mileage = #{drivingMileage,jdbcType=REAL},
+      energy = #{energy,jdbcType=TINYINT},
+      vin = #{vin,jdbcType=VARCHAR},
+      odometer = #{odometer,jdbcType=VARCHAR},
+      oil = #{oil,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      store_key_id = #{storeKeyId,jdbcType=INTEGER},
+      store_key_name = #{storeKeyName,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      original = #{original,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.liser.socket.bean.Device">
+    update ycdl_car_common_device
+    set name = #{name,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      device_number = #{deviceNumber,jdbcType=VARCHAR},
+      device_type = #{deviceType,jdbcType=TINYINT},
+      device_status = #{deviceStatus,jdbcType=TINYINT},
+      device_online = #{deviceOnline,jdbcType=TINYINT},
+      cpu_id = #{cpuId,jdbcType=VARCHAR},
+      gsm_type = #{gsmType,jdbcType=VARCHAR},
+      gsm_imei = #{gsmImei,jdbcType=VARCHAR},
+      sim_imsi = #{simImsi,jdbcType=VARCHAR},
+      sim_iccid = #{simIccid,jdbcType=VARCHAR},
+      obd_versions = #{obdVersions,jdbcType=VARCHAR},
+      obd_versions_time = #{obdVersionsTime,jdbcType=TIMESTAMP},
+      car_type = #{carType,jdbcType=VARCHAR},
+      car_status_code = #{carStatusCode,jdbcType=VARCHAR},
+      driving_mileage = #{drivingMileage,jdbcType=REAL},
+      energy = #{energy,jdbcType=TINYINT},
+      vin = #{vin,jdbcType=VARCHAR},
+      odometer = #{odometer,jdbcType=VARCHAR},
+      oil = #{oil,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      store_key_id = #{storeKeyId,jdbcType=INTEGER},
+      store_key_name = #{storeKeyName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectByDeviceId" parameterType="com.liser.socket.bean.DeviceWithBLOBs" resultMap="ResultMapWithBLOBs">
+    select id
+    from ycdl_car_common_device
+    where device_number = #{deviceNumber,jdbcType=VARCHAR}
+  </select>
+
+  <update id="updateCarStatus" parameterType="java.util.HashMap">
+    update ycdl_car_common_device
+    set car_status_code = #{carStatusCode,jdbcType=VARCHAR},
+    <if test="continuationLine != null">
+      driving_mileage = #{continuationLine,jdbcType=REAL},
+    </if>
+    <if test="dumpEnergy != null">
+      energy = #{dumpEnergy,jdbcType=TINYINT},
+    </if>
+    update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where device_number = #{deviceNumber,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateDeviceOnline" parameterType="java.util.HashMap">
+    update ycdl_car_common_device
+    set device_online = #{deviceOnline,jdbcType=INTEGER},
+    update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where device_number = #{deviceNumber,jdbcType=VARCHAR}
+  </update>
+
+</mapper>
